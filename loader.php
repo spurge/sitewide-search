@@ -42,5 +42,23 @@ function sitewide_search_load_textdomain() {
 	load_plugin_textdomain( 'sitewide-search', false, plugin_basename( SITEWIDE_SEARCH_PLUGIN_DIR ) . "/languages/" );
 }
 
+/**
+ * Query posts "sitewide" from the archive
+ * @uses query_posts
+ * @param string|array args
+ * @return void
+ */
+function sitewide_search_query_posts( $args ) {
+	if ( is_array( $args) ) {
+		$args['sitewide_search'] = true;
+	} elseif ( ! empty( $args ) ) {
+		$args .= '&sitewide_search=1';
+	} else {
+		$args = 'sitewide_search=1';
+	}
+
+	query_posts( $args );
+}
+
 // Hook languages-loading function to wordpress init action
 add_action( 'init', 'sitewide_search_load_textdomain' );
